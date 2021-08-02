@@ -24,6 +24,9 @@ class Converter:
             amount = float(amount)
         except ValueError:
             raise APIException(f'Не удалось обработать количество - {amount}')
+                    
+        if amount <= 0:
+            raise APIException(f'Введите количество больше нуля')
 
         r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={quote_ticker}&tsyms={base_ticker}')
         total_base = (json.loads(r.content)[keys[base]]) * amount
